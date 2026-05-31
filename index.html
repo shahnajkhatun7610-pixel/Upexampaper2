@@ -1,452 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UP B.Ed Paper 2 Practice Quiz - 1/3 Negative Marking</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .quiz-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            width: 100%;
-            padding: 40px;
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .info {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .info strong {
-            color: #e74c3c;
-        }
-
-        .score-display {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .score-item {
-            text-align: center;
-            min-width: 100px;
-        }
-
-        .score-item label {
-            display: block;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .score-item .value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .score-item.total .value { color: #667eea; }
-        .score-item.correct .value { color: #27ae60; }
-        .score-item.wrong .value { color: #e74c3c; }
-        .score-item.negative .value { color: #e67e22; }
-
-        .question-section {
-            margin-bottom: 30px;
-        }
-
-        .question-number {
-            font-size: 14px;
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .question-text {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .option {
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .option:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
-        }
-
-        .option.selected {
-            border-color: #667eea;
-            background: #e8ecff;
-        }
-
-        .option.correct {
-            border-color: #27ae60;
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .option.wrong {
-            border-color: #e74c3c;
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .option.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-        }
-
-        .btn-primary:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background: #f8f9fa;
-            color: #333;
-            border: 2px solid #e0e0e0;
-        }
-
-        .btn-secondary:hover {
-            background: #e9ecef;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .result-section {
-            text-align: center;
-        }
-
-        .result-title {
-            font-size: 32px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .result-score {
-            font-size: 64px;
-            font-weight: bold;
-            color: #667eea;
-            margin: 30px 0;
-        }
-
-        .result-details {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .result-row:last-child {
-            border-bottom: none;
-        }
-
-        .result-row label {
-            color: #666;
-        }
-
-        .result-row .value {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .result-row.negative .value {
-            color: #e67e22;
-        }
-
-        .result-row.final .value {
-            color: #667eea;
-            font-size: 20px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: width 0.3s ease;
-        }
-
-        @media (max-width: 600px) {
-            .quiz-container {
-                padding: 25px;
-            }
-            h1 { font-size: 24px; }
-            .question-text { font-size: 16px; }
-            .score-display { flex-wrap: wrap; }
-            .score-item { min-width: 80px; }
-            .buttons { flex-direction: column; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UP B.Ed Paper 2 Practice Quiz - 1/3 Negative Marking</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.quiz-container {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+}
+h1 { color: #333; text-align: center; margin-bottom: 10px; font-size: 28px; }
+.subtitle { text-align: center; color: #666; margin-bottom: 10px; font-size: 16px; }
+.info { text-align: center; color: #666; margin-bottom: 30px; font-size: 14px; }
+.info strong { color: #e74c3c; }
+.score-display {
+  display: flex; justify-content: space-around; margin-bottom: 30px;
+  padding: 20px; background: #f8f9fa; border-radius: 10px;
+  flex-wrap: wrap; gap: 15px;
+}
+.score-item { text-align: center; min-width: 100px; }
+.score-item label { display: block; font-size: 12px; color: #666; margin-bottom: 5px; text-transform: uppercase; }
+.score-item .value { font-size: 24px; font-weight: bold; color: #333; }
+.score-item.total .value { color: #667eea; }
+.score-item.correct .value { color: #27ae60; }
+.score-item.wrong .value { color: #e74c3c; }
+.score-item.negative .value { color: #e67e22; }
+.question-section { margin-bottom: 30px; }
+.question-number { font-size: 14px; color: #667eea; font-weight: 600; margin-bottom: 10px; }
+.question-text { font-size: 18px; color: #333; margin-bottom: 25px; line-height: 1.6; }
+.options { display: flex; flex-direction: column; gap: 12px; }
+.option {
+  padding: 15px 20px; border: 2px solid #e0e0e0; border-radius: 8px;
+  cursor: pointer; transition: all 0.3s ease; font-size: 16px; color: #333;
+}
+.option:hover { border-color: #667eea; background: #f8f9ff; }
+.option.selected { border-color: #667eea; background: #e8ecff; }
+.option.correct { border-color: #27ae60; background: #d4edda; color: #155724; }
+.option.wrong { border-color: #e74c3c; background: #f8d7da; color: #721c24; }
+.option.disabled { pointer-events: none; opacity: 0.7; }
+.buttons { display: flex; gap: 15px; margin-top: 30px; }
+.btn {
+  flex: 1; padding: 15px 30px; border: none; border-radius: 8px;
+  font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+}
+.btn-primary { background: #667eea; color: white; }
+.btn-primary:hover { background: #5568d3; transform: translateY(-2px); }
+.btn-primary:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+.btn-secondary { background: #f8f9fa; color: #333; border: 2px solid #e0e0e0; }
+.btn-secondary:hover { background: #e9ecef; }
+.hidden { display: none !important; }
+.result-section { text-align: center; }
+.result-title { font-size: 32px; color: #333; margin-bottom: 20px; }
+.result-score { font-size: 64px; font-weight: bold; color: #667eea; margin: 30px 0; }
+.result-details {
+  background: #f8f9fa; padding: 25px; border-radius: 10px;
+  margin-bottom: 30px; text-align: left;
+}
+.result-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e0e0e0; }
+.result-row:last-child { border-bottom: none; }
+.result-row label { color: #666; }
+.result-row .value { font-weight: 600; color: #333; }
+.result-row.negative .value { color: #e67e22; }
+.result-row.final .value { color: #667eea; font-size: 20px; }
+.progress-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; margin-bottom: 25px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); transition: width 0.3s ease; }
+@media (max-width: 600px) {
+  .quiz-container { padding: 25px; }
+  h1 { font-size: 24px; }
+  .question-text { font-size: 16px; }
+  .score-display { flex-wrap: wrap; }
+  .score-item { min-width: 80px; }
+  .buttons { flex-direction: column; }
+}
+</style>
 </head>
 <body>
-    <div class="quiz-container">
-        <div id="quizSection">
-            <h1>UP B.Ed Paper 2 Practice Quiz</h1>
-            <p class="subtitle">100 Questions - Teaching Aptitude, Psychology, Reasoning, History, Polity, Geography</p>
-            <p class="info">Negative marking: <strong>1/3</strong> point for each wrong answer</p>
-            
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
-            </div>
-
-            <div class="score-display">
-                <div class="score-item total">
-                    <label>Total</label>
-                    <div class="value" id="totalQuestions">100</div>
-                </div>
-                <div class="score-item correct">
-                    <label>Correct</label>
-                    <div class="value" id="correctCount">0</div>
-                </div>
-                <div class="score-item wrong">
-                    <label>Wrong</label>
-                    <div class="value" id="wrongCount">0</div>
-                </div>
-                <div class="score-item negative">
-                    <label>Negative</label>
-                    <div class="value" id="negativeMarks">0</div>
-                </div>
-                <div class="score-item total">
-                    <label>Score</label>
-                    <div class="value" id="currentScore">0</div>
-                </div>
-            </div>
-
-            <div class="question-section">
-                <div class="question-number" id="questionNumber">Question 1 of 100</div>
-                <div class="question-text" id="questionText"></div>
-                <div class="options" id="options"></div>
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-primary" id="submitBtn" onclick="submitAnswer()" disabled>Submit</button>
-                <button class="btn btn-secondary" id="nextBtn" onclick="nextQuestion()" style="display: none;">Next Question</button>
-            </div>
-        </div>
-
-        <div id="resultSection" class="result-section hidden">
-            <h2 class="result-title">Quiz Completed!</h2>
-            <p>Your Performance Summary:</p>
-            
-            <div class="result-score" id="finalScore">0</div>
-            
-            <div class="result-details">
-                <div class="result-row">
-                    <label>Total Questions</label>
-                    <span class="value" id="resultTotal">100</span>
-                </div>
-                <div class="result-row">
-                    <label>Correct Answers</label>
-                    <span class="value" id="resultCorrect">0</span>
-                </div>
-                <div class="result-row">
-                    <label>Wrong Answers</label>
-                    <span class="value" id="resultWrong">0</span>
-                </div>
-                <div class="result-row negative">
-                    <label>Negative Marks (-1/3 per wrong)</label>
-                    <span class="value" id="resultNegative">0</span>
-                </div>
-                <div class="result-row final">
-                    <label>Final Score</label>
-                    <span class="value" id="resultFinal">0</span>
-                </div>
-            </div>
-
-            <div class="buttons">
-                <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
-            </div>
-        </div>
+<div class="quiz-container">
+  <div id="quizSection">
+    <h1>UP B.Ed Paper 2 Practice Quiz</h1>
+    <p class="subtitle">100 Questions - Teaching Aptitude, Psychology, Reasoning, History, Polity, Geography</p>
+    <p class="info">Negative marking: <strong>1/3</strong> point for each wrong answer</p>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressBar" style="width: 0%"></div>
     </div>
+    <div class="score-display">
+      <div class="score-item total"><label>Total</label><div class="value" id="totalQuestions">100</div></div>
+      <div class="score-item correct"><label>Correct</label><div class="value" id="correctCount">0</div></div>
+      <div class="score-item wrong"><label>Wrong</label><div class="value" id="wrongCount">0</div></div>
+      <div class="score-item negative"><label>Negative</label><div class="value" id="negativeMarks">0.00</div></div>
+      <div class="score-item total"><label>Score</label><div class="value" id="currentScore">0.00</div></div>
+    </div>
+    <div class="question-section">
+      <div class="question-number" id="questionNumber">Question 1 of 100</div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="options"></div>
+    </div>
+    <div class="buttons">
+      <!-- FIX 1: Removed onclick from button; handled via addEventListener in JS -->
+      <button class="btn btn-primary" id="submitBtn" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="nextBtn">Next Question</button>
+    </div>
+  </div>
 
-    <script>
-        const questions = [
-            {q:"Learning by Doing theory was propounded by:",options:["Piaget","Dewey","Skinner","Thorndike"],a:1},
-            {q:"Trial and Error theory was given by:",options:["Kohler","Pavlov","Thorndike","Bruner"],a:2},
-            {q:"The process of modifying behaviour through experience is called:",options:["Maturation","Learning","Growth","Intelligence"],a:1},
-            {q:"Which is not a characteristic of a good teacher?",options:["Patience","Bias","Leadership","Communication"],a:1},
-            {q:"Inclusive education means:",options:["Separate schools","Equal learning opportunities","Special schools only","Online education"],a:1},
-            {q:"Intelligence Quotient was introduced by:",options:["Binet","Dewey","Skinner","Watson"],a:0},
-            {q:"Classical Conditioning theory was proposed by:",options:["Pavlov","Thorndike","Skinner","Bruner"],a:0},
-            {q:"Motivation refers to:",options:["Forgetting","Driving force behind behaviour","Habit","Memory"],a:1},
-            {q:"The best method for active participation is:",options:["Lecture","Discussion","Dictation","Reading"],a:1},
-            {q:"Continuous and Comprehensive Evaluation (CCE) emphasizes:",options:["Final exam only","Continuous assessment","Oral tests only","Objective tests only"],a:1},
-            {q:"2, 6, 12, 20, 30, ?",options:["40","42","44","46"],a:1},
-            {q:"5, 10, 17, 26, 37, ?",options:["48","50","52","54"],a:1},
-            {q:"If CAT = DBU, then DOG = ?",options:["EPH","FQI","EOG","DPH"],a:0},
-            {q:"Find the odd one out:",options:["Lion","Tiger","Cow","Leopard"],a:2},
-            {q:"A is brother of B, B is sister of C. How is A related to C?",options:["Brother","Sister","Father","Uncle"],a:0},
-            {q:"If SOUTH is coded as TPVUI, NORTH is coded as:",options:["OPSUI","OPRUI","NQTUI","OPTUI"],a:0},
-            {q:"Clock : Time :: Thermometer : ?",options:["Heat","Degree","Temperature","Weather"],a:2},
-            {q:"1, 4, 9, 16, 25, ?",options:["30","35","36","49"],a:2},
-            {q:"Pointing to a woman, Ram said, "She is my mother's daughter." Who is she?",options:["Mother","Sister","Daughter","Wife"],a:1},
-            {q:"A man walks 10m north, then 10m east. Distance from starting point?",options:["10m","20m","14.14m","15m"],a:2},
-            {q:"The Constitution of India came into force on:",options:["15 Aug 1947","26 Jan 1950","26 Nov 1949","2 Oct 1950"],a:1},
-            {q:"Chairman of the Constituent Assembly was:",options:["Nehru","Ambedkar","Rajendra Prasad","Patel"],a:2},
-            {q:"Article 21 deals with:",options:["Equality","Freedom of Speech","Right to Life","Education"],a:2},
-            {q:"Quit India Movement was launched in:",options:["1930","1935","1942","1947"],a:2},
-            {q:"Largest state of India by area:",options:["Madhya Pradesh","Uttar Pradesh","Rajasthan","Maharashtra"],a:2},
-            {q:"अंतर्दृष्टि (Insight) सिद्धांत किसने दिया?",options:["कोहलर","स्किनर","पावलॉव","बिने"],a:0},
-            {q:"'शिक्षा जीवन की तैयारी नहीं, बल्कि स्वयं जीवन है' किसने कहा?",options:["गांधी","टैगोर","जॉन ड्यूई","रूसो"],a:2},
-            {q:"बालक के विकास का प्रथम उत्तरदायित्व किसका है?",options:["विद्यालय","समाज","परिवार","सरकार"],a:2},
-            {q:"अधिगम को प्रभावित करने वाला प्रमुख कारक कौन-सा है?",options:["प्रेरणा","ऊँचाई","रंग","वजन"],a:0},
-            {q:"बुद्धि और उपलब्धि में क्या संबंध है?",options:["कोई संबंध नहीं","प्रत्यक्ष संबंध","विपरीत संबंध","आंशिक संबंध"],a:1},
-            {q:"7, 14, 28, 56, ?",options:["84","96","112","120"],a:2},
-            {q:"यदि PEN = 35, तो BOOK = ?",options:["41","43","45","47"],a:1},
-            {q:"11, 13, 17, 19, 23, ?",options:["25","27","29","31"],a:2},
-            {q:"SCHOOL को TDIPPM लिखा जाता है, तो BOOK को क्या लिखा जाएगा?",options:["CPLL","CPPL","CQQM","DQQM"],a:0},
-            {q:"3:15 पर घंटे और मिनट की सुई के बीच कोण कितना होगा?",options:["0°","7.5°","15°","22.5°"],a:1},
-            {q:"यदि सभी गुलाब फूल हैं और कुछ फूल लाल हैं, तो निष्कर्ष:",options:["सभी गुलाब लाल हैं","कुछ गुलाब लाल हो सकते हैं","कोई गुलाब लाल नहीं","सभी लाल फूल गुलाब हैं"],a:1},
-            {q:"श्रेणी पूरी करें: A, C, F, J, O, ?",options:["T","U","V","W"],a:1},
-            {q:"यदि आज सोमवार है, तो 45 दिन बाद कौन-सा दिन होगा?",options:["मंगलवार","बुधवार","गुरुवार","शुक्रवार"],a:3},
-            {q:"एक व्यक्ति पश्चिम की ओर चल रहा है, दाएँ मुड़ता है, फिर दाएँ मुड़ता है। अब वह किस दिशा में है?",options:["उत्तर","दक्षिण","पूर्व","पश्चिम"],a:2},
-            {q:"144 का वर्गमूल क्या है?",options:["10","11","12","13"],a:2},
-            {q:"भारतीय राष्ट्रीय कांग्रेस की स्थापना कब हुई?",options:["1885","1887","1890","1905"],a:0},
-            {q:"जलियाँवाला बाग हत्याकांड कब हुआ?",options:["1917","1918","1919","1920"],a:2},
-            {q:"असहयोग आंदोलन किस वर्ष शुरू हुआ?",options:["1919","1920","1922","1930"],a:1},
-            {q:"दांडी यात्रा किससे संबंधित है?",options:["स्वदेशी आंदोलन","नमक सत्याग्रह","भारत छोड़ो आंदोलन","खिलाफत आंदोलन"],a:1},
-            {q:"'करो या मरो' का नारा किस आंदोलन में दिया गया?",options:["असहयोग","सविनय अवज्ञा","भारत छोड़ो","स्वदेशी"],a:2},
-            {q:"भारत की सबसे लंबी नदी कौन-सी है?",options:["यमुना","गंगा","गोदावरी","ब्रह्मपुत्र"],a:1},
-            {q:"कर्क रेखा भारत के कितने राज्यों से गुजरती है?",options:["6","7","8","9"],a:2},
-            {q:"भारत का राष्ट्रीय जलचर कौन है?",options:["मगरमच्छ","डॉल्फिन","कछुआ","शार्क"],a:1},
-            {q:"राज्यसभा का पदेन सभापति कौन होता है?",options:["राष्ट्रपति","प्रधानमंत्री","उपराष्ट्रपति","लोकसभा अध्यक्ष"],a:2},
-            {q:"भारतीय संविधान में मौलिक कर्तव्य किस संशोधन द्वारा जोड़े गए?",options:["42वाँ संशोधन","44वाँ संशोधन","52वाँ संशोधन","61वाँ संशोधन"],a:0},
-            {q:"बहु-बुद्धि (Multiple Intelligence) सिद्धांत किसने दिया?",options:["गार्डनर","पियाजे","स्किनर","थॉर्नडाइक"],a:0},
-            {q:"सीखने की प्रक्रिया में पुनर्बलन (Reinforcement) का सिद्धांत किसने दिया?",options:["स्किनर","पावलॉव","कोहलर","ब्रूनर"],a:0},
-            {q:"बाल विकास का सबसे महत्वपूर्ण काल कौन-सा माना जाता है?",options:["किशोरावस्था","प्रौढ़ावस्था","शैशवावस्था","वृद्धावस्था"],a:2},
-            {q:"शिक्षा का मुख्य उद्देश्य क्या है?",options:["केवल नौकरी प्राप्त करना","व्यक्तित्व का सर्वांगीण विकास","परीक्षा पास करना","धन अर्जित करना"],a:1},
-            {q:"कक्षा में अनुशासन बनाए रखने का सर्वोत्तम तरीका क्या है?",options:["दंड","भय","प्रेरणा एवं सहभागिता","कठोर नियम"],a:2},
-            {q:"3, 9, 27, 81, ?",options:["162","243","324","729"],a:1},
-            {q:"यदि TABLE को UBCMF लिखा जाए, तो CHAIR को कैसे लिखा जाएगा?",options:["DIBJS","DIBKT","EJCJS","DICJS"],a:0},
-            {q:"1, 8, 27, 64, 125, ?",options:["144","196","216","256"],a:2},
-            {q:"एक परिवार में पिता, माता, दो पुत्र और एक पुत्री हैं। कुल सदस्य?",options:["4","5","6","7"],a:1},
-            {q:"15 : 225 :: 18 : ?",options:["324","342","361","289"],a:0},
-            {q:"यदि सभी आम फल हैं और कुछ फल मीठे हैं, तो निष्कर्ष:",options:["सभी आम मीठे हैं","कुछ आम मीठे हो सकते हैं","कोई आम मीठा नहीं","सभी मीठे फल आम हैं"],a:1},
-            {q:"श्रृंखला पूरी करें: Z, X, U, Q, ?",options:["M","L","N","O"],a:1},
-            {q:"6 बजे घंटे और मिनट की सुई के बीच कोण कितना होगा?",options:["90°","120°","180°","360°"],a:2},
-            {q:"यदि कल शुक्रवार था, तो परसों कौन-सा दिन होगा?",options:["शनिवार","रविवार","सोमवार","मंगलवार"],a:1},
-            {q:"49 का वर्गमूल क्या है?",options:["6","7","8","9"],a:1},
-            {q:"'स्वराज मेरा जन्मसिद्ध अधिकार है' किसने कहा?",options:["गांधीजी","बाल गंगाधर तिलक","नेहरू","पटेल"],a:1},
-            {q:"भारतीय राष्ट्रीय कांग्रेस के प्रथम अध्यक्ष कौन थे?",options:["दादाभाई नौरोजी","डब्ल्यू.सी. बनर्जी","फिरोजशाह मेहता","गोखले"],a:1},
-            {q:"साइमन कमीशन भारत कब आया?",options:["1925","1927","1928","1930"],a:2},
-            {q:"पूर्ण स्वराज प्रस्ताव कब पारित हुआ?",options:["1928","1929","1930","1931"],a:1},
-            {q:"भारत को स्वतंत्रता कब मिली?",options:["15 अगस्त 1947","26 जनवरी 1950","9 अगस्त 1942","26 नवम्बर 1949"],a:0},
-            {q:"भारत की राजधानी क्या है?",options:["मुंबई","कोलकाता","नई दिल्ली","चेन्नई"],a:2},
-            {q:"भारत का राष्ट्रीय पशु कौन है?",options:["हाथी","सिंह","बाघ","चीता"],a:2},
-            {q:"लोकसभा के सदस्यों का कार्यकाल कितना होता है?",options:["4 वर्ष","5 वर्ष","6 वर्ष","7 वर्ष"],a:1},
-            {q:"भारत का सर्वोच्च न्यायालय कहाँ स्थित है?",options:["मुंबई","कोलकाता","नई दिल्ली","चेन्नई"],a:2},
-            {q:"संविधान की प्रस्तावना में भारत को क्या कहा गया है?",options:["लोकतांत्रिक गणराज्य","संप्रभु समाजवादी धर्मनिरपेक्ष लोकतांत्रिक गणराज्य","संघीय राज्य","एकात्मक राज्य"],a:1},
-            {q:"बालक के मानसिक विकास का सिद्धांत किसने दिया?",options:["पियाजे","स्किनर","थॉर्नडाइक","पावलॉव"],a:0},
-            {q:"अधिगम का सबसे महत्वपूर्ण तत्व क्या है?",options:["आयु","प्रेरणा","ऊँचाई","वंशानुक्रम"],a:1},
-            {q:"एक प्रभावी शिक्षक की पहचान क्या है?",options:["केवल विषय ज्ञान","कठोर दंड","अच्छा संप्रेषण एवं मार्गदर्शन","अधिक गृहकार्य"],a:2},
-            {q:"Bloom's Taxonomy किससे संबंधित है?",options:["अधिगम उद्देश्यों के वर्गीकरण से","व्यक्तित्व से","बुद्धि परीक्षण से","प्रेरणा से"],a:0},
-            {q:"शिक्षा मनोविज्ञान का मुख्य उद्देश्य क्या है?",options:["बालक को समझना","परीक्षा लेना","पाठ्यक्रम बनाना","विद्यालय प्रबंधन"],a:0},
-            {q:"4, 9, 16, 25, 36, ?",options:["45","47","49","51"],a:2},
-            {q:"यदि RED को 27 लिखा जाए, तो BLUE को क्या लिखा जाएगा?",options:["40","42","44","46"],a:0},
-            {q:"श्रृंखला पूरी करें: B, E, H, K, ?",options:["M","N","O","P"],a:1},
-            {q:"पूर्व की ओर 20 मीटर, फिर उत्तर की ओर 15 मीटर। प्रारंभिक बिंदु से दूरी?",options:["25 मीटर","30 मीटर","35 मीटर","40 मीटर"],a:0},
-            {q:"यदि A = 1, B = 2, C = 3, तो CAB = ?",options:["312","321","213","231"],a:1},
-            {q:"12 : 144 :: 15 : ?",options:["210","215","225","235"],a:2},
-            {q:"9 बजे घड़ी में कोण कितना होगा?",options:["90°","180°","270°","360°"],a:0},
-            {q:"यदि सभी पुस्तकें काग
+  <div id="resultSection" class="result-section hidden">
+    <h2 class="result-title">Quiz Completed!</h2>
+    <p>Your Performance Summary:</p>
+    <div class="result-score" id="finalScore">0</div>
+    <div class="result-details">
+      <div class="result-row"><label>Total Questions</label><span class="value" id="resultTotal">100</span></div>
+      <div class="result-row"><label>Correct Answers</label><span class="value" id="resultCorrect">0</span></div>
+      <div class="result-row"><label>Wrong Answers</label><span class="value" id="resultWrong">0</span></div>
+      <div class="result-row negative"><label>Negative Marks (-1/3 per wrong)</label><span class="value" id="resultNegative">0</span></div>
+      <div class="result-row final"><label>Final Score</label><span class="value" id="resultFinal">0</span></div>
+    </div>
+    <div class="buttons">
+      <button class="btn btn-primary" onclick="restartQuiz()">Restart Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {q:"Learning by Doing theory was propounded by:",options:["Piaget","Dewey","Skinner","Thorndike"],a:1},
+  {q:"Trial and Error theory was given by:",options:["Kohler","Pavlov","Thorndike","Bruner"],a:2},
+  {q:"The process of modifying behaviour through experience is called:",options:["Maturation","Learning","Growth","Intelligence"],a:1},
+  {q:"Which is not a characteristic of a good teacher?",options:["Patience","Bias","Leadership","Communication"],a:1},
+  {q:"Inclusive education means:",options:["Separate schools","Equal learning opportunities","Special schools only","Online education"],a:1},
+  {q:"Intelligence Quotient was introduced by:",options:["Binet","Dewey","Skinner","Watson"],a:0},
+  {q:"Classical Conditioning theory was proposed by:",options:["Pavlov","Thorndike","Skinner","Bruner"],a:0},
+  {q:"Motivation refers to:",options:["Forgetting","Driving force behind behaviour","Habit","Memory"],a:1},
+  {q:"The best method for active participation is:",options:["Lecture","Discussion","Dictation","Reading"],a:1},
+  {q:"Continuous and Comprehensive Evaluation (CCE) emphasizes:",options:["Final exam only","Continuous assessment","Oral tests only","Objective tests only"],a:1},
+  {q:"2, 6, 12, 20, 30, ?",options:["40","42","44","46"],a:1},
+  {q:"5, 10, 17, 26, 37, ?",options:["48","50","52","54"],a:1},
+  {q:"If CAT = DBU, then DOG = ?",options:["EPH","FQI","EOG","DPH"],a:0},
+  {q:"Find the odd one out:",options:["Lion","Tiger","Cow","Leopard"],a:2},
+  {q:"A is brother of B, B is sister of C. How is A related to C?",options:["Brother","Sister","Father","Uncle"],a:0},
+  {q:"If SOUTH is coded as TPVUI, NORTH is coded as:",options:["OPSUI","OPRUI","NQTUI","OPTUI"],a:0},
+  {q:"Clock : Time :: Thermometer : ?",options:["Heat","Degree","Temperature","Weather"],a:2},
+  {q:"1, 4, 9, 16, 25, ?",options:["30","35","36","49"],a:2},
+  {q:"Pointing to a woman, Ram said, \"She is my mother's daughter.\" Who is she?",options:["Mother","Sister","Daughter","Wife"],a:1},
+  {q:"A man walks 10m north, then 10m east. Distance from starting point?",options:["10m","20m","14.14m","15m"],a:2},
+  {q:"The Constitution of India came into force on:",options:["15 Aug 1947","26 Jan 1950","26 Nov 1949","2 Oct 1950"],a:1},
+  {q:"Chairman of the Constituent Assembly was:",options:["Nehru","Ambedkar","Rajendra Prasad","Patel"],a:2},
+  {q:"Article 21 deals with:",options:["Equality","Freedom of Speech","Right to Life","Education"],a:2},
+  {q:"Quit India Movement was launched in:",options:["1930","1935","1942","1947"],a:2},
+  {q:"Largest state of India by area:",options:["Madhya Pradesh","Uttar Pradesh","Rajasthan","Maharashtra"],a:2},
+  {q:"अंतर्दृष्टि (Insight) सिद्धांत किसने दिया?",options:["कोहलर","स्किनर","पावलॉव","बिने"],a:0},
+  {q:"'शिक्षा जीवन की तैयारी नहीं, बल्कि स्वयं जीवन है' किसने कहा?",options:["गांधी","टैगोर","जॉन ड्यूई","रूसो"],a:2},
+  {q:"बालक के विकास का प्रथम उत्तरदायित्व किसका है?",options:["विद्यालय","समाज","परिवार","सरकार"],a:2},
+  {q:"अधिगम को प्रभावित करने वाला प्रमुख कारक कौन-सा है?",options:["प्रेरणा","ऊँचाई","रंग","वजन"],a:0},
+  {q:"बुद्धि और उपलब्धि में क्या संबंध है?",options:["कोई संबंध नहीं","प्रत्यक्ष संबंध","विपरीत संबंध","आंशिक संबंध"],a:1},
+  {q:"7, 14, 28, 56, ?",options:["84","96","112","120"],a:2},
+  // FIX 2: PEN=35? P(16)+E(5)+N(14)=35 ✓. BOOK: B(2)+O(15)+O(15)+K(11)=43 → index 1
+  {q:"यदि PEN = 35, तो BOOK = ?",options:["41","43","45","47"],a:1},
+  {q:"11, 13, 17, 19, 23, ?",options:["25","27","29","31"],a:2},
+  // FIX 3: SCHOOL→TDIPPM (+1 each letter). BOOK: B→C, O→P, O→P, K→L = CPPL (index 1)
+  {q:"SCHOOL को TDIPPM लिखा जाता है, तो BOOK को क्या लिखा जाएगा?",options:["CPLL","CPPL","CQQM","DQQM"],a:1},
+  // FIX 4: 3:15 pe hour hand = 3*30 + 15*0.5 = 97.5°, minute hand = 15*6 = 90°. Angle = 7.5° (index 1)
+  {q:"3:15 पर घंटे और मिनट की सुई के बीच कोण कितना होगा?",options:["0°","7.5°","15°","22.5°"],a:1},
+  {q:"यदि सभी गुलाब फूल हैं और कुछ फूल लाल हैं, तो निष्कर्ष:",options:["सभी गुलाब लाल हैं","कुछ गुलाब लाल हो सकते हैं","कोई गुलाब लाल नहीं","सभी लाल फूल गुलाब हैं"],a:1},
+  {q:"श्रेणी पूरी करें: A, C, F, J, O, ?",options:["T","U","V","W"],a:1},
+  // FIX 5: Today=Monday, 45 days later: 45%7=3, Mon+3=Thursday (index 2 = गुरुवार)
+  {q:"यदि आज सोमवार है, तो 45 दिन बाद कौन-सा दिन होगा?",options:["मंगलवार","बुधवार","गुरुवार","शुक्रवार"],a:2},
+  {q:"एक व्यक्ति पश्चिम की ओर चल रहा है, दाएँ मुड़ता है, फिर दाएँ मुड़ता है। अब वह किस दिशा में है?",options:["उत्तर","दक्षिण","पूर्व","पश्चिम"],a:2},
+  {q:"144 का वर्गमूल क्या है?",options:["10","11","12","13"],a:2},
+  {q:"भारतीय राष्ट्रीय कांग्रेस की स्थापना कब हुई?",options:["1885","1887","1890","1905"],a:0},
+  {q:"जलियाँवाला बाग हत्याकांड कब हुआ?",options:["1917","1918","1919","1920"],a:2},
+  {q:"असहयोग आंदोलन किस वर्ष शुरू हुआ?",options:["1919","1920","1922","1930"],a:1},
+  {q:"दांडी यात्रा किससे संबंधित है?",options:["स्वदेशी आंदोलन","नमक सत्याग्रह","भारत छोड़ो आंदोलन","खिलाफत आंदोलन"],a:1},
+  {q:"'करो या मरो' का नारा किस आंदोलन में दिया गया?",options:["असहयोग","सविनय अवज्ञा","भारत छोड़ो","स्वदेशी"],a:2},
+  {q:"भारत की सबसे लंबी नदी कौन-सी है?",options:["यमुना","गंगा","गोदावरी","ब्रह्मपुत्र"],a:1},
+  {q:"कर्क रेखा भारत के कितने राज्यों से गुजरती है?",options:["6","7","8","9"],a:2},
+  {q:"भारत का राष्ट्रीय जलचर कौन है?",options:["मगरमच्छ","डॉल्फिन","कछुआ","शार्क"],a:1},
+  {q:"राज्यसभा का पदेन सभापति कौन होता है?",options:["राष्ट्रपति","प्रधानमंत्री","उपराष्ट्रपति","लोकसभा अध्यक्ष"],a:2},
+  {q:"भारतीय संविधान में मौलिक कर्तव्य किस संशोधन द्वारा जोड़े गए?",options:["42वाँ संशोधन","44वाँ संशोधन","52वाँ संशोधन","61वाँ संशोधन"],a:0},
+  {q:"बहु-बुद्धि (Multiple Intelligence) सिद्धांत किसने दिया?",options:["गार्डनर","पियाजे","स्किनर","थॉर्नडाइक"],a:0},
+  {q:"सीखने की प्रक्रिया में पुनर्बलन (Reinforcement) का सिद्धांत किसने दिया?",options:["स्किनर","पावलॉव","कोहलर","ब्रूनर"],a:0},
+  {q:"बाल विकास का सबसे महत्वपूर्ण काल कौन-सा माना जाता है?",options:["किशोरावस्था","प्रौढ़ावस्था","शैशवावस्था","वृद्धावस्था"],a:2},
+  {q:"शिक्षा का मुख्य उद्देश्य क्या है?",options:["केवल नौकरी प्राप्त करना","व्यक्तित्व का सर्वांगीण विकास","परीक्षा पास करना","धन अर्जित करना"],a:1},
+  {q:"कक्षा में अनुशासन बनाए रखने का सर्वोत्तम तरीका क्या है?",options:["दंड","भय","प्रेरणा एवं सहभागिता","कठोर नियम"],a:2},
+  {q:"3, 9, 27, 81, ?",options:["162","243","324","729"],a:1},
+  // FIX 6: TABLE→UBCMF (+1 each). CHAIR: C→D,H→I,A→B,I→J,R→S = DIBJS (index 0) ✓
+  {q:"यदि TABLE को UBCMF लिखा जाए, तो CHAIR को कैसे लिखा जाएगा?",options:["DIBJS","DIBKT","EJCJS","DICJS"],a:0},
+  {q:"1, 8, 27, 64, 125, ?",options:["144","196","216","256"],a:2},
+  {q:"एक परिवार में पिता, माता, दो पुत्र और एक पुत्री हैं। कुल सदस्य?",options:["4","5","6","7"],a:1},
+  {q:"15 : 225 :: 18 : ?",options:["324","342","361","289"],a:0},
+  {q:"यदि सभी आम फल हैं और कुछ फल मीठे हैं, तो निष्कर्ष:",options:["सभी आम मीठे हैं","कुछ आम मीठे हो सकते हैं","कोई आम मीठा नहीं","सभी मीठे फल आम हैं"],a:1},
+  {q:"श्रृंखला पूरी करें: Z, X, U, Q, ?",options:["M","L","N","O"],a:1},
+  {q:"6 बजे घंटे और मिनट की सुई के बीच कोण कितना होगा?",options:["90°","120°","180°","360°"],a:2},
+  // FIX 7: कल शुक्रवार था → आज शनिवार → कल रविवार → परसों सोमवार (index 2 = सोमवार)
+  {q:"यदि कल शुक्रवार था, तो परसों कौन-सा दिन होगा?",options:["शनिवार","रविवार","सोमवार","मंगलवार"],a:2},
+  {q:"49 का वर्गमूल क्या है?",options:["6","7","8","9"],a:1},
+  {q:"'स्वराज मेरा जन्मसिद्ध अधिकार है' किसने कहा?",options:["गांधीजी","बाल गंगाधर तिलक","नेहरू","पटेल"],a:1},
+  {q:"भारतीय राष्ट्रीय कांग्रेस के प्रथम अध्यक्ष कौन थे?",options:["दादाभाई नौरोजी","डब्ल्यू.सी. बनर्जी","फिरोजशाह मेहता","गोखले"],a:1},
+  {q:"साइमन कमीशन भारत कब आया?",options:["1925","1927","1928","1930"],a:2},
+  {q:"पूर्ण स्वराज प्रस्ताव कब पारित हुआ?",options:["1928","1929","1930","1931"],a:1},
+  {q:"भारत को स्वतंत्रता कब मिली?",options:["15 अगस्त 1947","26 जनवरी 1950","9 अगस्त 1942","26 नवम्बर 1949"],a:0},
+  {q:"भारत की राजधानी क्या है?",options:["मुंबई","कोलकाता","नई दिल्ली","चेन्नई"],a:2},
+  {q:"भारत का राष्ट्रीय पशु कौन है?",options:["हाथी","सिंह","बाघ","चीता"],a:2},
+  {q:"लोकसभा के सदस्यों का कार्यकाल कितना होता है?",options:["4 वर्ष","5 वर्ष","6 वर्ष","7 वर्ष"],a:1},
+  {q:"भारत का सर्वोच्च न्यायालय कहाँ स्थित है?",options:["मुंबई","कोलकाता","नई दिल्ली","चेन्नई"],a:2},
+  {q:"संविधान की प्रस्तावना में भारत को क्या कहा गया है?",options:["लोकतांत्रिक गणराज्य","संप्रभु समाजवादी धर्मनिरपेक्ष लोकतांत्रिक गणराज्य","संघीय राज्य","एकात्मक राज्य"],a:1},
+  {q:"बालक के मानसिक विकास का सिद्धांत किसने दिया?",options:["पियाजे","स्किनर","थॉर्नडाइक","पावलॉव"],a:0},
+  {q:"अधिगम का सबसे महत्वपूर्ण तत्व क्या है?",options:["आयु","प्रेरणा","ऊँचाई","वंशानुक्रम"],a:1},
+  {q:"एक प्रभावी शिक्षक की पहचान क्या है?",options:["केवल विषय ज्ञान","कठोर दंड","अच्छा संप्रेषण एवं मार्गदर्शन","अधिक गृहकार्य"],a:2},
+  {q:"Bloom's Taxonomy किससे संबंधित है?",options:["अधिगम उद्देश्यों के वर्गीकरण से","व्यक्तित्व से","बुद्धि परीक्षण से","प्रेरणा से"],a:0},
+  {q:"शिक्षा मनोविज्ञान का मुख्य उद्देश्य क्या है?",options:["बालक को समझना","परीक्षा लेना","पाठ्यक्रम बनाना","विद्यालय प्रबंधन"],a:0},
+  {q:"4, 9, 16, 25, 36, ?",options:["45","47","49","51"],a:2},
+  // FIX 8: RED=R(18)+E(5)+D(4)=27. BLUE=B(2)+L(12)+U(21)+E(5)=40 → index 0
+  {q:"यदि RED को 27 लिखा जाए, तो BLUE को क्या लिखा जाएगा?",options:["40","42","44","46"],a:0},
+  // FIX 9: B,E,H,K,? (+3 each) → N (index 1) ✓
+  {q:"श्रृंखला पूरी करें: B, E, H, K, ?",options:["M","N","O","P"],a:1},
+  {q:"पूर्व की ओर 20 मीटर, फिर उत्तर की ओर 15 मीटर। प्रारंभिक बिंदु से दूरी?",options:["25 मीटर","30 मीटर","35 मीटर","40 मीटर"],a:0},
+  {q:"यदि A = 1, B = 2, C = 3, तो CAB = ?",options:["312","321","213","231"],a:1},
+  {q:"12 : 144 :: 15 : ?",options:["210","215","225","235"],a:2},
+  {q:"9 बजे घड़ी में कोण कितना होगा?",options:["90°","180°","270°","360°"],a:0},
+  {q:"यदि सभी पुस्तकें काग़ज़ की बनी हैं और सभी काग़ज़ सफ़ेद हैं, तो:",options:["सभी पुस्तकें सफ़ेद हैं","कोई पुस्तक सफ़ेद नहीं","कुछ पुस्तकें सफ़ेद हैं","कुछ काग़ज़ पुस्तकें हैं"],a:0},
+  {q:"भारत में पहली बार आम चुनाव कब हुए?",options:["1947","1950","1952","1957"],a:2},
+  {q:"सिंधु घाटी सभ्यता के प्रमुख नगर कौन से हैं?",options:["आगरा और दिल्ली","हड़प्पा और मोहनजोदड़ो","पटना और वाराणसी","मुंबई और पुणे"],a:1},
+  {q:"अशोक किस वंश से संबंधित था?",options:["गुप्त वंश","मौर्य वंश","कुषाण वंश","चोल वंश"],a:1},
+  {q:"प्रथम विश्व युद्ध कब हुआ?",options:["1905-1908","1914-1918","1918-1922","1939-1945"],a:1},
+  {q:"हिमालय की सबसे ऊँची चोटी कौन-सी है?",options:["K2","नंदा देवी","माउंट एवरेस्ट","कंचनजंगा"],a:2},
+  {q:"पंचायती राज का आधार है:",options:["केंद्रीय सरकार","जिला सरकार","स्थानीय स्वशासन","प्रांतीय सरकार"],a:2},
+  {q:"भारतीय संविधान के किस भाग में मौलिक अधिकार हैं?",options:["भाग 2","भाग 3","भाग 4","भाग 5"],a:1},
+  {q:"वर्गमूल निकालें: 196",options:["12","13","14","15"],a:2},
+  {q:"श्रृंखला: 2, 3, 5, 8, 13, ?",options:["18","20","21","23"],a:2},
+  {q:"यदि MANGO = 13+1+14+7+15 = 50, तो APPLE = ?",options:["50","51","56","60"],a:2},
+  {q:"शिक्षण की सर्वोत्तम विधि है:",options:["व्याख्यान विधि","खोज विधि","रटन विधि","श्रुतलेख"],a:1},
+  {q:"बालक में नैतिक विकास का सिद्धांत किसने दिया?",options:["पियाजे","कोहलबर्ग","स्किनर","एरिकसन"],a:1},
+];
+
+// State
+let currentQ = 0;
+let selectedOption = null;
+let correct = 0;
+let wrong = 0;
+let answered = 0;
+
+function loadQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('questionNumber').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('progressBar').style.width = `${(currentQ / questions.length) * 100}%`;
+
+  const optionsDiv = document.getElementById('options');
+  optionsDiv.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.textContent = `${String.fromCharCode(65+i)}. ${opt}`;
+    // FIX: Use addEventListener so disabled state is respected properly
+    div.addEventListener('click', () => selectOption(i));
+    optionsDiv.appendChild(div);
+  });
+
+  selectedOption = null;
+  // FIX: Reset buttons properly using hidden class (consistent)
+  const submitBtn = document.getElementById('submitBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  submitBtn.disabled = true;
+  submitBtn.classList.remove('hidden');
+  nextBtn.classList.add('hidden');
+}
+
+function selectOption(index) {
+  // Don't allow re-selection after answer revealed
+  const options = document.querySelectorAll('.option');
+  if (options[0].classList.contains('disabled')) return;
+
+  options.forEach(o => o.classList.remove('selected'));
+  options[index].classList.add('selected');
+  selectedOption = index;
+
+  // FIX: Enable submit button when an option is selected
+  document.getElementById('submitBtn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedOption === null) return;
+
+  const q = questions[currentQ];
+  const options = document.querySelectorAll('.option');
+
+  // Disable all options
+  options.forEach(o => o.classList.add('disabled'));
+
+  if (selectedOption === q.a) {
+    options[selectedOption].classList.add('correct');
+    options[selectedOption].classList.remove('selected');
+    correct++;
+  } else {
+    options[selectedOption].classList.add('wrong');
+    options[selectedOption].classList.remove('selected');
+    options[q.a].classList.add('correct');
+    wrong++;
+  }
+
+  answered++;
+  updateScore();
+
+  // FIX: Use hidden class consistently
+  document.getElementById('submitBtn').classList.add('hidden');
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.classList.remove('hidden');
+  nextBtn.textContent = currentQ < questions.length - 1 ? 'Next Question' : 'See Results';
+}
+
+function updateScore() {
+  const negativeMarks = (wrong / 3);
+  const score = correct - negativeMarks;
+  document.getElementById('correctCount').textContent = correct;
+  document.getElementById('wrongCount').textContent = wrong;
+  document.getElementById('negativeMarks').textContent = negativeMarks.toFixed(2);
+  document.getElementById('currentScore').textContent = score.toFixed(2);
+}
+
+function nextQuestion() {
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quizSection').classList.add('hidden');
+  document.getElementById('resultSection').classList.remove('hidden');
+
+  const negativeMarks = (wrong / 3);
+  const finalScore = correct - negativeMarks;
+
+  document.getElementById('finalScore').textContent = finalScore.toFixed(2);
+  document.getElementById('resultTotal').textContent = questions.length;
+  document.getElementById('resultCorrect').textContent = correct;
+  document.getElementById('resultWrong').textContent = wrong;
+  document.getElementById('resultNegative').textContent = '-' + negativeMarks.toFixed(2);
+  document.getElementById('resultFinal').textContent = finalScore.toFixed(2);
+}
+
+function restartQuiz() {
+  currentQ = 0; selectedOption = null; correct = 0; wrong = 0; answered = 0;
+  document.getElementById('correctCount').textContent = '0';
+  document.getElementById('wrongCount').textContent = '0';
+  document.getElementById('negativeMarks').textContent = '0.00';
+  document.getElementById('currentScore').textContent = '0.00';
+  document.getElementById('quizSection').classList.remove('hidden');
+  document.getElementById('resultSection').classList.add('hidden');
+  loadQuestion();
+}
+
+// FIX: Attach event listeners properly
+document.getElementById('submitBtn').addEventListener('click', submitAnswer);
+document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+
+// Initialize
+loadQuestion();
+</script>
+</body>
+</html>
